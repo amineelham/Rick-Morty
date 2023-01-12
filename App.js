@@ -1,9 +1,23 @@
+import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, FlatList, SafeAreaView, Image } from 'react-native';
+import { StyleSheet, Text, View, FlatList, SafeAreaView, Image, AppRegistry } from 'react-native';
 import {data} from './data'
-import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+import { useQuery, gql } from '@apollo/client';
 
 export default function App() {
+
+  const client = new ApolloClient({
+    uri: 'https://rickandmortyapi.com/graphql',
+    cache: new InMemoryCache()
+  });
+  const App = () => (
+    <ApolloProvider client={client}>
+      <MyRootComponent />
+    </ApolloProvider>
+  );
+  AppRegistry.registerComponent('MyApplication', () => App);
+
 
   const episode = ({item}) => {
   return(
@@ -71,7 +85,6 @@ const styles = StyleSheet.create({
     color:'#822E9B',
     fontSize: 30,
     fontWeight:'bold',
-
   },
   listHeader:{
     height: 55,
