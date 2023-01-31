@@ -1,22 +1,24 @@
-import { Text, FlatList, Pressable, View, SafeAreaView, Image } from "react-native";
-import React, { useState } from "react";
+import { Text, FlatList, Pressable, View, SafeAreaView, Image, Button, TouchableOpacity } from "react-native";
 import { useQuery } from "@apollo/client";
 import { EPISODES_QUERY } from "./gql/Query";
 import { styles } from "../App";
+import React from 'react';
+import SecondScreen from './SecondScreen';
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }) {
   const { data, loading, error } = useQuery(EPISODES_QUERY);
 
   const EpisodesItem = ({ episode }) => {
-    const { name, air_date } = episode;
+    const { name, airdate } = episode;
     const { image } = episode;
+    const { id } = episode;
     return (
-      <View style={styles.item}>
-        <View style={styles.avatarContainer}>
-        <Image source={{ uri: image }} style={styles.avatar} />
+      <TouchableOpacity style={styles.item} onPress={() => navigation.navigate("Details" ,{id : data.episodes.results})}>
+        <View style={styles.avatarContainer}> 
+        <Image source={require('../images/episodeI.jpg')} style={styles.avatar} />
         </View>
         <Text style={styles.name } >{ name }</Text>
-      </View>
+      </TouchableOpacity>
     );
   };
   

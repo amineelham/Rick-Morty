@@ -4,6 +4,8 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import HomeScreen from './src/HomeScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
+import { createStackNavigator } from '@react-navigation/stack';
+import SecondScreen from './src/SecondScreen';
 
 // Initialize Apollo Client
 const client = new ApolloClient({
@@ -11,6 +13,7 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 });
 
+const Stack = createStackNavigator();
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -23,11 +26,16 @@ export default function App() {
     return <View style={styles.separator} />
   }
   return (
+
+  
+  <NavigationContainer>
     <ApolloProvider client={client}>
-    <SafeAreaView>
-      <HomeScreen/>
-    </SafeAreaView>
+    <Stack.Navigator>
+      <Stack.Screen name="Episodes" component={HomeScreen} />
+      <Stack.Screen name="Details" component={SecondScreen} />
+    </Stack.Navigator>
     </ApolloProvider>
+  </NavigationContainer>
   );
 }
 
@@ -47,8 +55,8 @@ export const styles = StyleSheet.create({
     marginLeft:6,
   },
   avatar:{
-    height:55,
-    width:55,
+    height:90,
+    width:90,
   },
   name:{
     flex: 0.8,
@@ -63,19 +71,22 @@ export const styles = StyleSheet.create({
   },
   listHeadline:{
     paddingTop:16,
-    color:"black",
+    color:"#balck",
     fontSize:21,
     fontWeight:"bold",
+    textDecorationLine:"underline",
   },
   separator:{
-    borderTopWidth: 1,
     height:1,
     width:"100%",
-    backgroundColor:"#5F5F5F",
+    backgroundColor:"black",
   },
   date:{
     fontWeight:"600",
     fontSize:16,
     marginLeft:13,
   },
+  Button:{
+    marginBottom:15,
+  }
 });
